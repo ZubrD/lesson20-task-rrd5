@@ -12,8 +12,9 @@ import {
 function App() {
   return (
     <div className="App">
-      <h1>App Layout</h1>
       <BrowserRouter>
+        <h1>App Layout</h1>
+        <NavLink to={"/users"}>Users List Page</NavLink>
         <Switch>
           <Route path="/users" component={UsersLayout} />
           <Route path="/" component={MainPage} />
@@ -26,7 +27,6 @@ function App() {
 
 function MainPage() {
   const data = useRouteMatch();
-  console.log(data);
   return <h1>Main</h1>;
 }
 
@@ -35,6 +35,7 @@ function UsersLayout() {
   return (
     <div>
       <h1>Users Layout</h1>
+      <NavLink to={"/"}>Main</NavLink>
       <Switch>
         <Route path={path + "/:userId/profile"} component={UserProfilePage} />
         <Route path={path + "/:userId/edit"} component={EditUserPage} />
@@ -63,16 +64,42 @@ function UserListPage() {
 
 function UserProfilePage() {
   const { userId } = useParams();
+
   return (
     <div>
       <h1>User Page</h1>
+      <ul>
+        <li>
+          <NavLink to="/users">User List Page</NavLink>
+        </li>
+        <li>
+          <NavLink to={`/users/${userId}/edit`}>Edit this User</NavLink>
+        </li>
+      </ul>
+
       <p>userId: {userId}</p>
     </div>
   );
 }
 
 function EditUserPage() {
-  return <h1>Edit User Page</h1>;
+  const { userId } = useParams();
+  return (
+    <div>
+      <h1>Edit User Page</h1>
+      <ul>
+        <li>
+          <NavLink to={"/users/" + userId}>User Profile Page</NavLink>
+        </li>
+        <li>
+          <NavLink to={"/users/" + (+userId + 1)}>Another User</NavLink>
+        </li>
+        <li>
+          <NavLink to={"/users"}>Users List Page</NavLink>
+        </li>
+      </ul>
+    </div>
+  );
 }
 
 export default App;
